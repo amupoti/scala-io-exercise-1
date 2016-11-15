@@ -1,8 +1,7 @@
 package com.xebia
 package exercise1
 
-import akka.actor.ActorRefFactory
-
+import akka.actor.{ActorRef, ActorRefFactory, Props}
 import spray.testkit.Specs2RouteTest
 import spray.http.StatusCodes
 import spray.httpx.SprayJsonSupport._
@@ -16,8 +15,10 @@ class ReceptionistSpec extends Specification
   val subject = new ReverseRoute {
     implicit def actorRefFactory: ActorRefFactory = system
     implicit def executionContext = system.dispatcher
-
-    //TODO implement createChild here as well (hint: you cannot use the context since the context is not available here)
+    def createChild(props: Props, name: String): ActorRef ={
+      system.actorOf(props,name)
+    }
+    //DONE_TODO implement createChild here as well (hint: you cannot use the context since the context is not available here)
   }
 
   "The Receptionist" should {
